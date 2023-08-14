@@ -1,13 +1,39 @@
-import { auth } from "../firebase.config.js";
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import { auth, googleProvider } from "../firebase.config.js";
+import {
+  createUserWithEmailAndPassword,
+  signInWithPopup,
+  signOut,
+} from "firebase/auth";
 import { useState } from "react";
 
 export default function Auth() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  console.log(auth?.currentUser?.email);
+
   async function signUp() {
-    await createUserWithEmailAndPassword(auth, email, password);
+    try {
+      await createUserWithEmailAndPassword(auth, email, password);
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
+  async function signInWithGoogle() {
+    try {
+      signInWithPopup(auth, googleProvider);
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
+  async function logout() {
+    try {
+      await signOut(auth);
+    } catch (err) {
+      console.error(err);
+    }
   }
 
   return (
@@ -33,6 +59,8 @@ export default function Auth() {
       </div>
 
       <button onClick={signUp}>Sign Up</button>
+      <button onClick={signInWithGoogle}>Sign In With Google</button>
+      <button onClick={logout}>Log out</button>
     </div>
   );
 }
