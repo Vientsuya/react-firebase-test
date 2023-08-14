@@ -1,7 +1,11 @@
+import Auth from "./components/Auth";
+
 function App() {
   return (
     <>
-      <p className="text-red-500">siema</p>
+      <div className="w-screen h-screen bg-gray-100 flex justify-center items-center">
+        <Auth />
+      </div>
     </>
   );
 }
